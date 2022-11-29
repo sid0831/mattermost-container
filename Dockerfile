@@ -2,13 +2,13 @@ FROM docker.io/library/ubuntu:jammy
 
 ARG TARGETARCH
 
-LABEL org.opencontainers.image.authors="https://bitnami.com/contact" \
-      org.opencontainers.image.description="Application packaged by Bitnami" \
-      org.opencontainers.image.ref.name="1.23.2-jammy-r0" \
-      org.opencontainers.image.source="https://github.com/bitnami/containers/tree/main/bitnami/nginx" \
-      org.opencontainers.image.title="nginx" \
-      org.opencontainers.image.vendor="VMware, Inc." \
-      org.opencontainers.image.version="1.23.2"
+LABEL org.opencontainers.image.authors="https://bitnami.com/contact; https://sidlibrary.org" \
+      org.opencontainers.image.description="Application packaged by Bitnami; flavoured by Sidney Jeong" \
+      org.opencontainers.image.ref.name="7.5.1-jammy-r0" \
+      org.opencontainers.image.source="https://github.com/sid0831/mattermost-container" \
+      org.opencontainers.image.title="mattermost" \
+      org.opencontainers.image.vendor="VMware, Inc.; Sidney Jeong" \
+      org.opencontainers.image.version="7.5.1"
 
 ENV HOME="/" \
     OS_ARCH="${TARGETARCH:-amd64}" \
@@ -31,7 +31,7 @@ RUN mkdir -p /opt/bitnami/nginx/logs /opt/bitnami/nginx/html /opt/bitnami/nginx/
     git clone --single-branch --branch maintenance-page https://github.com/sid0831/sid0831.github.io /opt/bitnami/nginx/html && \
     ln -sf /dev/stdout /opt/bitnami/nginx/logs/access.log && ln -sf /dev/stderr /opt/bitnami/nginx/logs/error.log
 RUN mkdir -p /opt/bitnami/mattermost/data && \
-    curl -fsSL https://releases.mattermost.com/7.4.0/mattermost-7.4.0-linux-amd64.tar.gz | \
+    curl -fsSL https://releases.mattermost.com/7.5.1/mattermost-7.5.1-linux-amd64.tar.gz | \
     tar -zxf - --strip-components=1 --no-same-owner -C /opt/bitnami/mattermost && \
     chmod -R g+rwX /opt/bitnami && mv /opt/bitnami/mattermost/config/config.json /opt/bitnami/mattermost/data/config.json && \
     ln -sfr /opt/bitnami/mattermost/data/config.json /opt/bitnami/mattermost/config/config.json
@@ -40,7 +40,7 @@ COPY rootfs /
 RUN cp -av /usr/sbin/nginx /opt/bitnami/nginx/sbin/nginx && \
     chown -R 1001:1001 /opt/bitnami && chmod -R g+rwX /opt/bitnami
 RUN /opt/bitnami/scripts/nginx/postunpack.sh
-ENV APP_VERSION="1.23.2" \
+ENV APP_VERSION="7.5.1" \
     BITNAMI_APP_NAME="nginx" \
     NGINX_HTTPS_PORT_NUMBER="" \
     NGINX_HTTP_PORT_NUMBER="" \
